@@ -4,7 +4,11 @@
         "-s",
         "./tests",
         "-p",
+<<<<<<< HEAD
         "*test*.py"
+=======
+        "test_*.py"
+>>>>>>> e952fc55b758e095887f07b5cb0a3d926fc3c6fe
     ],
     "python.testing.pytestEnabled": false,
     "python.testing.unittestEnabled": true
