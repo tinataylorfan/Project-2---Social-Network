@@ -3,7 +3,7 @@ from __future__ import annotations
 from dataclasses import dataclass
 from typing import List, Optional
 
-from part1_toolbox.part1_task1_data_modeling import User
+from models_part1 import User
 
 
 @dataclass
@@ -18,7 +18,7 @@ class _Node:
 
 
 class UserIndexBST:
-    """Task 3: BST index by follower count / 按粉丝数索引用户."""
+    """Part 1 Task 3: BST index sorted by real follower_count."""
 
     def __init__(self) -> None:
         self.root: Optional[_Node] = None
@@ -34,9 +34,7 @@ class UserIndexBST:
     def find_top_k(self, k: int) -> List[User]:
         if k <= 0:
             return []
-        users: List[User] = []
-        self._collect_users(self.root, users)
-        users.sort(key=lambda user: (-user.follower_count, user.user_id))
+        users = self.to_sorted_list(descending=True)
         return users[:k]
 
     def find_range(self, min_count: int, max_count: int) -> List[User]:
@@ -44,7 +42,7 @@ class UserIndexBST:
             return []
         result: List[User] = []
         self._range_search(self.root, min_count, max_count, result)
-        return result
+        return sorted(result, key=lambda user: (user.follower_count, user.user_id))
 
     def remove_user(self, user: User, old_follower_count: int | None = None) -> None:
         count = user.follower_count if old_follower_count is None else old_follower_count
@@ -56,11 +54,17 @@ class UserIndexBST:
         user.update_follower_count(new_count)
         self.insert(user)
 
+    def to_sorted_list(self, descending: bool = False) -> List[User]:
+        result: List[User] = []
+        self._collect_users(self.root, result)
+        result.sort(key=lambda user: (user.follower_count, user.user_id), reverse=descending)
+        if descending:
+            result.sort(key=lambda user: (-user.follower_count, user.user_id))
+        return result
+
     def _insert(self, node: Optional[_Node], user: User) -> _Node:
         if node is None:
             return _Node(user)
-
-        # 用 user_id 打破相同粉丝数的并列情况 / tie-break duplicate follower counts
         key = (user.follower_count, user.user_id)
         if key == node.key:
             node.user = user
@@ -73,7 +77,6 @@ class UserIndexBST:
     def _search_count(self, node: Optional[_Node], follower_count: int, result: List[User]) -> None:
         if node is None:
             return
-
         node_count = node.user.follower_count
         if follower_count < node_count:
             self._search_count(node.left, follower_count, result)
@@ -84,19 +87,11 @@ class UserIndexBST:
             self._search_count(node.left, follower_count, result)
             self._search_count(node.right, follower_count, result)
 
-    def _collect_users(self, node: Optional[_Node], result: List[User]) -> None:
-        if node is None:
-            return
-        self._collect_users(node.left, result)
-        result.append(node.user)
-        self._collect_users(node.right, result)
-
     def _range_search(
         self, node: Optional[_Node], min_count: int, max_count: int, result: List[User]
     ) -> None:
         if node is None:
             return
-
         node_count = node.user.follower_count
         if node_count > min_count:
             self._range_search(node.left, min_count, max_count, result)
@@ -104,6 +99,13 @@ class UserIndexBST:
             result.append(node.user)
         if node_count < max_count:
             self._range_search(node.right, min_count, max_count, result)
+
+    def _collect_users(self, node: Optional[_Node], result: List[User]) -> None:
+        if node is None:
+            return
+        self._collect_users(node.left, result)
+        result.append(node.user)
+        self._collect_users(node.right, result)
 
     def _remove(self, node: Optional[_Node], key: tuple[int, int]) -> Optional[_Node]:
         if node is None:
@@ -114,12 +116,10 @@ class UserIndexBST:
         if key > node.key:
             node.right = self._remove(node.right, key)
             return node
-
         if node.left is None:
             return node.right
         if node.right is None:
             return node.left
-
         successor = self._min_node(node.right)
         node.user = successor.user
         node.right = self._remove(node.right, successor.key)
@@ -130,6 +130,3 @@ class UserIndexBST:
         while node.left is not None:
             node = node.left
         return node
-
-
-__all__ = ["UserIndexBST"]

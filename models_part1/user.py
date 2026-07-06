@@ -6,16 +6,15 @@ from datetime import date
 
 @dataclass(eq=False)
 class User:
-    """Task 1: user node / 用户节点."""
+    """Part 1 Task 1: user node for the social network."""
 
     user_id: int
     username: str
     join_date: date
     country: str
-    follower_count: int
+    follower_count: int = 0
 
     def __post_init__(self) -> None:
-        # 基本合法性检查 / basic validation
         if not isinstance(self.user_id, int) or self.user_id <= 0:
             raise ValueError("user_id must be a positive integer")
         if not isinstance(self.username, str) or not self.username.strip():
@@ -39,6 +38,3 @@ class User:
         if not isinstance(new_count, int) or new_count < 0:
             raise ValueError("follower_count must be a non-negative integer")
         self.follower_count = new_count
-
-
-__all__ = ["User"]
