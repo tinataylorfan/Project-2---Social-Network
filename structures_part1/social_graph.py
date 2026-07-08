@@ -8,11 +8,7 @@ from structures_part1.user_index_bst import UserIndexBST
 
 
 class SocialGraph:
-    """Part 1 Task 2: directed graph as the main structure.
-
-    The graph owns the BST index and keeps it synchronized. The BST never
-    changes the graph, so there are no circular updates.
-    """
+    """Task 2 / 任务2: Graph / 图."""
 
     def __init__(self) -> None:
         self.users: Dict[int, User] = {}
@@ -21,6 +17,7 @@ class SocialGraph:
         self.user_index = UserIndexBST()
 
     def add_user(self, user: User) -> None:
+        # Sync BST / 同步BST
         if user.user_id in self.users:
             raise ValueError(f"user_id {user.user_id} already exists")
         user.update_follower_count(0)
@@ -46,6 +43,7 @@ class SocialGraph:
         del self.users[user_id]
 
     def add_follow(self, follower_id: int, followee_id: int) -> bool:
+        # Graph main / 图为主
         self._require_user(follower_id)
         self._require_user(followee_id)
         if follower_id == followee_id:
@@ -60,6 +58,7 @@ class SocialGraph:
         return True
 
     def remove_follow(self, follower_id: int, followee_id: int) -> bool:
+        # Sync count / 同步计数
         if follower_id not in self.users or followee_id not in self.users:
             return False
         if followee_id not in self.following[follower_id]:

@@ -16,11 +16,7 @@ def generate_dataset(
     edge_count: int = 30,
     seed: int = 7,
 ) -> tuple[Path, Path]:
-    """Part 1 Task 4: generate CSV files.
-
-    follower_count is written as 0 initially. Real counts are computed while
-    loading follow relationships into the graph.
-    """
+    """Task 4 / 任务4: CSV / 数据."""
 
     if user_count < 15:
         raise ValueError("user_count must be at least 15")
@@ -50,11 +46,13 @@ def generate_dataset(
     users[-1]["username"] = "isolated_reader"
 
     edges: set[tuple[int, int]] = set()
+    # Cluster / 强连通
     cluster = [3, 4, 5, 6, 7]
     for a, b in zip(cluster, cluster[1:] + cluster[:1]):
         edges.add((a, b))
         edges.add((b, a))
 
+    # Hubs / 中心用户
     for uid in range(3, user_count):
         for hub_id in [1, 2]:
             if rng.random() < 0.75:

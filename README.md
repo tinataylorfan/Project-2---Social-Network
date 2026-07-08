@@ -11,6 +11,8 @@ folder name:
 - `models_part1/`: user data model.
 - `structures_part1/`: directed graph and BST index.
 - `data_part1/`: CSV dataset generation and loading.
+- `analysis_part2/`: Part 2 analysis files for centrality, reachability, communities, benchmarking, and recommendations.
+- `visualization_part2/`: Part 2 visualization placeholder.
 - `tests/`: unit tests.
 - `dataset/data/`: generated CSV files.
 - `docs/`: short written notes.
@@ -101,3 +103,19 @@ python -m unittest discover -v -s ./tests -p *test*.py
 
 Generated Python cache files such as `__pycache__/` and `*.pyc` should not be
 committed to GitHub.
+
+## Part 2 Work Split
+
+The Part 2 files are separated so each group member can own one task and
+implement it in a separate file:
+
+- `analysis_part2/centrality.py`: influence and centrality. Basic implementation is started.
+- `analysis_part2/reachability.py`: shortest paths and degrees of separation. Basic implementation is started.
+- `analysis_part2/community_detection.py`: strongly connected components.
+- `analysis_part2/benchmarking.py`: empirical benchmarking.
+- `analysis_part2/recommender.py`: connection recommendations.
+- `visualization_part2/graph_gui.py`: graphical interface.
+
+The ownership table is in `docs/part2_work_split.md`. Each group member should
+replace the owner placeholder with their name and push their own commit for the
+task they implement.

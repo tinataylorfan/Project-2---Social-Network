@@ -18,7 +18,7 @@ class _Node:
 
 
 class UserIndexBST:
-    """Part 1 Task 3: BST index sorted by real follower_count."""
+    """Task 3 / 任务3: BST / 二叉树."""
 
     def __init__(self) -> None:
         self.root: Optional[_Node] = None
@@ -49,6 +49,7 @@ class UserIndexBST:
         self.root = self._remove(self.root, (count, user.user_id))
 
     def update_user_count(self, user: User, new_count: int) -> None:
+        # Graph only / 仅图调用
         old_count = user.follower_count
         self.remove_user(user, old_count)
         user.update_follower_count(new_count)

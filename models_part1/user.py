@@ -6,7 +6,7 @@ from datetime import date
 
 @dataclass(eq=False)
 class User:
-    """Part 1 Task 1: user node for the social network."""
+    """Task 1 / 任务1: User / 用户."""
 
     user_id: int
     username: str
