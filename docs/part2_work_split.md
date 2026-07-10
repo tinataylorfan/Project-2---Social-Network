@@ -1,17 +1,20 @@
 # Part 2 Work Split
 
-Each Part 2 task has a separate file so each group member can own one task and
-push their own commits to GitHub.
+The work is divided by responsibility rather than by task number. This is more
+scientific because Part 2 features share the same graph data, algorithms,
+testing, benchmark results, and Web interface.
 
-| Part 2 task | File | Owner | Commit expectation |
+| Role | Owner | Main files | Responsibility |
 | --- | --- | --- | --- |
-| Task 1 - Influence and Centrality | `analysis_part2/centrality.py` | To be assigned | The owner implements and commits this file. |
-| Task 2 - Reachability and Degrees of Separation | `analysis_part2/reachability.py` | To be assigned | The owner implements and commits this file. |
-| Task 3 - Community Detection | `analysis_part2/community_detection.py` | To be assigned | The owner implements and commits this file. |
-| Task 4 - Empirical Benchmarking | `analysis_part2/benchmarking.py` | To be assigned | The owner implements and commits this file. |
-| Task 5 - Connection Recommender | `analysis_part2/recommender.py` | To be assigned | The owner implements and commits this file. |
-| Task 5 - Graphical Interface | `visualization_part2/graph_gui.py` | To be assigned | The owner implements and commits this file. |
+| Algorithm lead / 算法负责人 | Member 1 | `analysis_part2/centrality.py`, `analysis_part2/community_detection.py`, `main.py` | Hardest part: PageRank, Tarjan SCC, algorithm integration, final consistency checks. |
+| Traversal and recommendation / 遍历推荐 | Member 2 | `analysis_part2/reachability.py`, `analysis_part2/recommender.py` | BFS path logic, degrees of separation, friend-of-friend recommendation, related tests. |
+| Experiments and documentation / 实验文档 | Member 3 | `analysis_part2/benchmarking.py`, `README.md`, `dataset/benchmark/` | Synthetic networks, benchmark CSV, complexity interpretation, documentation. |
+| Web visualisation / 网页可视化 | Member 4 | `web_part2/index.html`, `web_part2/style.css`, `web_part2/app.js` | Directed graph UI, community colours, path query, recommendations, benchmark plot. |
 
-Before starting Part 2 implementation, replace `To be assigned` with the real
-group member names. Each member should make at least one commit under their own
-GitHub account for the file they own.
+Member 1 owns the largest and most difficult part because the central algorithms
+must stay consistent with the graph model. Members 2, 3, and 4 split the
+remaining work evenly across traversal logic, experiments/documentation, and
+Web visualisation.
+
+Each member should replace the owner placeholder with their real name and push
+their own commits to GitHub for the files they own.

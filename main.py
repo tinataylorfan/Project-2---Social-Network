@@ -2,7 +2,11 @@ from __future__ import annotations
 
 from datetime import date
 
+from analysis_part2.benchmarking import run_benchmarks
 from analysis_part2.centrality import degree_centrality, page_rank
+from analysis_part2.community_detection import strongly_connected_components
+from analysis_part2.reachability import average_degrees_of_separation, shortest_path
+from analysis_part2.recommender import recommendation_details
 from data_part1 import generate_dataset, load_dataset
 from models_part1 import User
 from structures_part1 import SocialGraph
@@ -48,6 +52,19 @@ def main() -> None:
     print("\nPart 2 Task 1 / 第二部分任务1")
     print_centrality(loaded_graph)
 
+    print("\nPart 2 Task 2 / 第二部分任务2")
+    print_reachability(loaded_graph)
+
+    print("\nPart 2 Task 3 / 第二部分任务3")
+    print_communities(loaded_graph)
+
+    print("\nPart 2 Task 4 / 第二部分任务4")
+    print_benchmark_sample()
+
+    print("\nPart 2 Task 5 / 第二部分任务5")
+    print_recommendations(loaded_graph, 3)
+    print("  Web / 网页: web_part2/index.html")
+
     print("\nDone / 完成")
 
 
@@ -77,6 +94,40 @@ def print_centrality(graph: SocialGraph) -> None:
     print("  PageRank / 影响力")
     for user_id, score in list(scores.items())[:3]:
         print(f"    {user_id} {graph.users[user_id].username}: {score:.4f}")
+
+
+def print_reachability(graph: SocialGraph) -> None:
+    path = shortest_path(graph, 3, 1)
+    print(f"  Path / 路径 3->1: {path}")
+    print(f"  Degrees / 间隔: {len(path) - 1 if path else 'N/A'}")
+    print(f"  Average / 平均: {average_degrees_of_separation(graph):.2f}")
+
+
+def print_communities(graph: SocialGraph) -> None:
+    for index, component in enumerate(strongly_connected_components(graph)[:5], start=1):
+        print(f"  SCC {index}: {component}")
+
+
+def print_benchmark_sample() -> None:
+    for row in run_benchmarks(sizes=(20, 100, 500), average_degree=5):
+        print(
+            f"  N={row['users']} E={row['edges']} "
+            f"build={row['construction_seconds']:.5f}s "
+            f"scc={row['scc_seconds']:.5f}s"
+        )
+
+
+def print_recommendations(graph: SocialGraph, user_id: int) -> None:
+    details = recommendation_details(graph, user_id)
+    if not details:
+        print("  None / 暂无")
+        return
+    for item in details:
+        print(
+            f"  {item['user_id']} {item['username']} "
+            f"mutual/共同={item['mutual_followees']} "
+            f"count/粉丝={item['follower_count']}"
+        )
 
 
 if __name__ == "__main__":

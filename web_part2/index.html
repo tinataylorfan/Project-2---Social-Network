@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Social Network Analysis</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <header class="topbar">
+      <div>
+        <h1>Social Network Analysis</h1>
+        <p>Part 2 Web Interface / 第二部分网页界面</p>
+      </div>
+      <div class="stats" id="stats"></div>
+    </header>
+
+    <main class="layout">
+      <section class="graph-area">
+        <div class="toolbar">
+          <label>
+            Source / 起点
+            <select id="sourceSelect"></select>
+          </label>
+          <label>
+            Target / 终点
+            <select id="targetSelect"></select>
+          </label>
+          <button id="pathBtn">Path / 路径</button>
+          <button id="communityBtn">Communities / 社群</button>
+          <button id="recommendBtn">Recommend / 推荐</button>
+          <button id="resetBtn">Reset / 重置</button>
+        </div>
+        <svg id="graphSvg" viewBox="0 0 920 620" role="img" aria-label="Directed social graph">
+          <defs>
+            <marker id="arrow" markerWidth="8" markerHeight="8" refX="8" refY="4" orient="auto">
+              <path d="M0,0 L8,4 L0,8 Z" fill="#8a95a5"></path>
+            </marker>
+            <marker id="arrowHighlight" markerWidth="8" markerHeight="8" refX="8" refY="4" orient="auto">
+              <path d="M0,0 L8,4 L0,8 Z" fill="#e76f51"></path>
+            </marker>
+          </defs>
+        </svg>
+      </section>
+
+      <aside class="side-panel">
+        <h2>Result / 结果</h2>
+        <pre id="output"></pre>
+        <h2>Benchmark / 性能</h2>
+        <svg id="benchmarkSvg" viewBox="0 0 360 220" role="img" aria-label="Benchmark plot"></svg>
+      </aside>
+    </main>
+
+    <script src="app.js"></script>
+  </body>
+</html>
